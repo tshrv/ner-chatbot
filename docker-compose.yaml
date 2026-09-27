@@ -1,0 +1,22 @@
+services:
+  xberg-api:
+    image: ghcr.io/xberg-io/xberg:1.2.9
+    ports:
+      - "8000:8000"
+    environment:
+      - XBERG_CORS_ORIGINS=https://myapp.com
+      - XBERG_MAX_REQUEST_BODY_BYTES=524288000
+      - RUST_LOG=info
+    volumes:
+      - cache-data:/app/.xberg
+    command: serve --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "xberg", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  cache-data:

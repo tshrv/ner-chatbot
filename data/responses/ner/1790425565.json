@@ -1,0 +1,303 @@
+[
+    {
+        "start": 30,
+        "end": 36,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9963435530662537
+    },
+    {
+        "start": 87,
+        "end": 93,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9976588487625122
+    },
+    {
+        "start": 185,
+        "end": 191,
+        "text": "Europe",
+        "label": "country",
+        "score": 0.771400511264801
+    },
+    {
+        "start": 368,
+        "end": 374,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9961174726486206
+    },
+    {
+        "start": 381,
+        "end": 398,
+        "text": "24 September 2026",
+        "label": "date",
+        "score": 0.6300694346427917
+    },
+    {
+        "start": 481,
+        "end": 487,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9955311417579651
+    },
+    {
+        "start": 655,
+        "end": 663,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.7664493322372437
+    },
+    {
+        "start": 709,
+        "end": 716,
+        "text": "Denmark",
+        "label": "country",
+        "score": 0.9678506255149841
+    },
+    {
+        "start": 794,
+        "end": 800,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9971001744270325
+    },
+    {
+        "start": 1001,
+        "end": 1018,
+        "text": "14 September\n2026",
+        "label": "date",
+        "score": 0.8982101082801819
+    },
+    {
+        "start": 1211,
+        "end": 1217,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9945880174636841
+    },
+    {
+        "start": 1237,
+        "end": 1243,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9963486194610596
+    },
+    {
+        "start": 1326,
+        "end": 1334,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.899486243724823
+    },
+    {
+        "start": 1335,
+        "end": 1342,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.931334376335144
+    },
+    {
+        "start": 1426,
+        "end": 1433,
+        "text": "Russia.",
+        "label": "country",
+        "score": 0.9148279428482056
+    },
+    {
+        "start": 1434,
+        "end": 1440,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9961208701133728
+    },
+    {
+        "start": 1501,
+        "end": 1509,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.9070703387260437
+    },
+    {
+        "start": 1738,
+        "end": 1745,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.9979122281074524
+    },
+    {
+        "start": 1836,
+        "end": 1842,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9978138208389282
+    },
+    {
+        "start": 1891,
+        "end": 1897,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9975526928901672
+    },
+    {
+        "start": 1951,
+        "end": 1958,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.9975579977035522
+    },
+    {
+        "start": 2030,
+        "end": 2045,
+        "text": "President Putin",
+        "label": "person",
+        "score": 0.8199781775474548
+    },
+    {
+        "start": 2130,
+        "end": 2136,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9964916110038757
+    },
+    {
+        "start": 2151,
+        "end": 2157,
+        "text": "Europe",
+        "label": "country",
+        "score": 0.5960602760314941
+    },
+    {
+        "start": 2265,
+        "end": 2272,
+        "text": "Russia.",
+        "label": "country",
+        "score": 0.9545493125915527
+    },
+    {
+        "start": 2277,
+        "end": 2283,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9798368811607361
+    },
+    {
+        "start": 2358,
+        "end": 2373,
+        "text": "President Putin",
+        "label": "person",
+        "score": 0.832591712474823
+    },
+    {
+        "start": 2587,
+        "end": 2592,
+        "text": "Putin",
+        "label": "person",
+        "score": 0.9287853240966797
+    },
+    {
+        "start": 2680,
+        "end": 2686,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9955260157585144
+    },
+    {
+        "start": 2740,
+        "end": 2746,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9178740382194519
+    },
+    {
+        "start": 2872,
+        "end": 2880,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.9113553762435913
+    },
+    {
+        "start": 2881,
+        "end": 2887,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9963576197624207
+    },
+    {
+        "start": 2961,
+        "end": 2968,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.9684466123580933
+    },
+    {
+        "start": 3093,
+        "end": 3101,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.9559745788574219
+    },
+    {
+        "start": 3164,
+        "end": 3170,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9977554678916931
+    },
+    {
+        "start": 3498,
+        "end": 3504,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.997441291809082
+    },
+    {
+        "start": 3629,
+        "end": 3635,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9977414608001709
+    },
+    {
+        "start": 3722,
+        "end": 3729,
+        "text": "Russia.",
+        "label": "country",
+        "score": 0.9358562231063843
+    },
+    {
+        "start": 3756,
+        "end": 3762,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9977699518203735
+    },
+    {
+        "start": 3789,
+        "end": 3796,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.9976649284362793
+    },
+    {
+        "start": 3931,
+        "end": 3937,
+        "text": "Russia",
+        "label": "country",
+        "score": 0.9530559778213501
+    },
+    {
+        "start": 4111,
+        "end": 4118,
+        "text": "Ukraine",
+        "label": "country",
+        "score": 0.9977491497993469
+    },
+    {
+        "start": 4358,
+        "end": 4366,
+        "text": "Ukraine.",
+        "label": "country",
+        "score": 0.8738032579421997
+    }
+]
