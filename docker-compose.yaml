@@ -1,10 +1,27 @@
 services:
+  mongodb:
+    image: mongo:7.0
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   xberg-api:
     image: ghcr.io/xberg-io/xberg:1.2.9
     ports:
       - "8000:8000"
     environment:
-      - XBERG_CORS_ORIGINS=https://myapp.com
+      - XBERG_CORS_ORIGINS=*
       - XBERG_MAX_REQUEST_BODY_BYTES=524288000
       - RUST_LOG=info
     volumes:
@@ -19,4 +36,5 @@ services:
       start_period: 5s
 
 volumes:
+  mongo-data:
   cache-data:
