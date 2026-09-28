@@ -38,3 +38,6 @@ ignore = []
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
 combine-as-imports = true
+
+[tool.pyrefly]
+search-path = ["."]
