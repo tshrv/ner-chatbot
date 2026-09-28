@@ -1,50 +1,92 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 1.0.0 -> 1.1.0
+- Modified principles: None
+- Added principles:
+  - VII. Comprehensive Observability & Structured Logging with Loguru
+- Added sections: None
+- Modified sections:
+  - Development Workflow & Quality Standards (incorporated Loguru structured trace requirements)
+- Removed sections: None
+- Follow-up TODOs: None
+-->
+
+# ner-chatbot Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Code Quality & Modularity
+- Source code MUST be testable, maintainable, readable, and extensible.
+- Code MUST follow single-responsibility design with modular decomposition, clean abstractions, and explicit Python type hints.
+- Code MUST be architected to enable straightforward testability without coupling business logic to external side effects.
+- Rationale: High readability, strong typing, and modular design minimize technical debt, accelerate maintenance, and ensure human developers can effortlessly inspect and test the codebase.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. CLI Interface via Typer
+- Every command-line interface exposed by the project or its sub-modules MUST use `typer`.
+- Commands MUST declare typed arguments and options, provide descriptive help text, and follow standard I/O semantics (primary outputs to stdout, diagnostic messages and errors to stderr).
+- Rationale: Typer enforces consistency across CLI entrypoints, eliminates boilerplate argument parsing, and provides self-documenting command-line interfaces.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Asynchronous by Default
+- All I/O-bound operations, including network calls, external service integrations, streaming, and database queries, MUST prefer `async`/`await` wherever possible.
+- The asynchronous event loop MUST NOT be blocked by synchronous or CPU-heavy calls; any necessary blocking operations MUST be delegated to worker threads (e.g., via `asyncio.to_thread`).
+- Rationale: Asynchronous architecture delivers high concurrency, throughput, and responsive interaction for conversational and entity-extraction pipelines.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Containerized Dependencies First
+- For any external tool, database, API mock, cache, or external service dependency, running it in Docker via `docker compose` MUST be preferred over installing it directly on the host machine.
+- Direct host installation of service dependencies is prohibited unless containerization is technically infeasible.
+- All containerized dependencies MUST be defined in `docker-compose.yaml` with explicit pinned image tags, health checks, and isolated networks/volumes.
+- Rationale: Docker Compose ensures reproducible, portable environments, avoids host pollution, and standardizes service management across machines.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Strict Dependency Pinning & Packaging via uv
+- The project MUST use `uv` as its primary package and virtual environment manager.
+- All project dependencies (direct and transitive) MUST be pinned to exact versions, locked in `uv.lock`, and specified with explicit versions in `pyproject.toml`.
+- The target development environment is Ubuntu Linux running within WSL (Windows Subsystem for Linux) on Windows 11. All scripts, environment paths, and commands MUST target POSIX/Ubuntu compatibility under WSL.
+- Rationale: Strict dependency pinning prevents unexpected upstream breakages, while `uv` guarantees fast, deterministic dependency resolution.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. Human-Authored Testing Policy (NON-NEGOTIABLE)
+- AI agents, code generation tools, and automated assistants MUST NOT write, modify, or generate any tests under any circumstances.
+- All test authoring, test suite maintenance, and verification are strictly reserved for the human developer.
+- Code generated by AI MUST nonetheless be designed to be testable, featuring dependency injection, modular interfaces, and clean separation of concerns.
+- Rationale: Retaining human-only testing ensures authoritative human oversight, prevents hallucinated assertions or circular validation, and guarantees that acceptance tests reflect human intent.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### VII. Comprehensive Observability & Structured Logging with Loguru
+- All logging in the project MUST use `loguru`.
+- Log events MUST be emitted at appropriate operational stages to form a coherent, end-to-end trace of each workflow execution (lifecycle start, input arrival, processing milestones, external service exchanges, exit, and errors).
+- Log calls MUST bind contextual attributes (such as entity IDs, object IDs, request IDs, and structured key-value pairs) wherever possible to enable precise filtering, queryability, and granular observability.
+- Rationale: Detailed structured tracing via Loguru provides immediate operational visibility, streamlines diagnostics across asynchronous pipelines, and simplifies downstream log analysis.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Structural Constraints & Excluded Directories
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Excluded Folders:
+  - The directories `.notes` and `src/playground` MUST be ignored entirely by automated tools, linters, analyzers, and production packaging.
+  - Production code inside `src/` (outside playground) MUST NOT import or reference anything in `.notes` or `src/playground`.
+  - AI agents MUST NOT read, inspect, modify, or generate code in `.notes` or `src/playground` unless explicitly commanded by the user.
+- Target Platform:
+  - The runtime environment is Python 3.12+ on Ubuntu Linux within WSL on Windows 11.
+  - Virtual environments and dependencies MUST be managed exclusively via `uv`.
+
+## Development Workflow & Quality Standards
+
+- Service Management:
+  - Containerized dependencies declared in `docker-compose.yaml` MUST be started (`docker compose up -d`) and verified healthy before running dependent services.
+- Dependency Management:
+  - New dependencies MUST be added with pinned versions using `uv add <package>==<version>` and tracked in `uv.lock`.
+- Observability & Logging Practice:
+  - Modules MUST import `logger` from `loguru`.
+  - Workflows MUST instrument key transition points with enriched log contexts using `logger.bind(...)` or extra parameters rather than unformatted string concatenation.
+- Code Quality Gates:
+  - All application code MUST include explicit type annotations.
+  - Business logic MUST be separated from transport/CLI layers and infrastructure services.
+  - Implementations MUST NOT produce or modify test files, respecting the human-only testing policy.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- Supremacy: This constitution is the authoritative foundation for `ner-chatbot`. All architecture decisions, specifications, code implementations, and pull requests MUST adhere strictly to these principles.
+- Amendment Procedure: Amendments require documenting proposed changes, outlining rationale, obtaining human approval, and defining the appropriate version bump.
+- Versioning Policy: The constitution follows Semantic Versioning:
+  - MAJOR: Incompatible governance changes, principle removals, or substantial shifts in project boundaries.
+  - MINOR: Additions of new principles, structural constraints, or workflow requirements.
+  - PATCH: Clarifications, non-semantic wording refinements, and formatting corrections.
+- Compliance Review: Every change and contribution must be reviewed against these rules. Complexity or exceptions must be explicitly justified and approved by the human maintainer.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.1.0 | **Ratified**: 2026-09-27 | **Last Amended**: 2026-09-28
