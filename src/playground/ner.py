@@ -16,8 +16,10 @@ def ner(text: str, labels: list[str]):
 def main():
     uid = "1790425565"
     logger.info(f"Processing uid {uid}")
-    out_file_path = f"/home/tushar/ner-chatbot/data/responses/ner/{uid}.json"
-    content_file_path = f"/home/tushar/ner-chatbot/data/responses/extraction/{uid}.json"
+    out_file_path = f"/home/tushar/ner-chatbot/data/playground/responses/ner/{uid}.json"
+    content_file_path = (
+        f"/home/tushar/ner-chatbot/data/playground/responses/extraction/{uid}.json"
+    )
     labels = [
         "founder",
         "computer",
