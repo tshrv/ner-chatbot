@@ -1,6 +1,6 @@
 """Application configuration managed through Pydantic BaseSettings."""
 
-from typing import List, Union
+from typing import List, Optional, Union
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -55,6 +55,22 @@ class Settings(BaseSettings):
         ge=0.0,
         le=1.0,
         description="Confidence score threshold for entity predictions",
+    )
+
+    # GCP Vertex AI / AI Agent Settings
+    gcp_vertex_ai_api_key: Optional[str] = Field(
+        default=None,
+        description="API Key for Google Cloud Vertex AI (Agent Platform API)",
+    )
+    llm_model_name: str = Field(
+        default="gemini-3.8-flash",
+        description="Gemini LLM model identifier for the Pydantic AI agent",
+    )
+    agent_max_retries: int = Field(
+        default=3,
+        ge=1,
+        le=10,
+        description="Maximum retry attempts on transient model or tool failures",
     )
 
     @field_validator("ner_labels")

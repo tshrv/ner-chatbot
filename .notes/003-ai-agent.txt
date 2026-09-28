@@ -1,0 +1,69 @@
++----------------------------------------+
+/speckit.constitution                    |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.specify                         |
++----------------------------------------+
+Create an ai agent
+Runnable via cli command, into a chat like behaviour, but it does not keep conversation history.
+The agent's only task is to answer user's natural language query on entities using the available tool, and not its own knowledge.
+It does not invent any information and always checks with the tool before answering.
+It should have access to tool(one or more) to query entities related information (case insensitive) from the database like
+- count total entity types
+- count unique entity types
+- list all entity types
+- check if an entity type exists, via value
+- count total entities
+- count unique entities
+- list all entities
+- check if an entity exists, via value
+- check for all occurences of an entity, should list all target documents, page number, offset, etc.
+- check for all occurences of an entity type, should list all target documents, page number, offset, etc.
+Tool should not retrieve job level information.
+if user query is not about entities/types/occurences, the agent should deny the request clearly.
+if no information could be retrieved via tools, agent should inform clearly instead of inventing information.
+if any error occurs, agent should retry maximum 3 times and then stop with clear response.
+
+
+
++----------------------------------------+
+/speckit.clarify                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.plan                            |
++----------------------------------------+
+use the typer based cli command to start chat like session
+use pydantic-ai to build the agent
+use llm from GCP Vertex AI via api key (Agent Platform API).
+I have updated the api key in .env
+Use model gemini-3.8 flash
+
+
++----------------------------------------+
+/speckit.checklist                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.tasks                           |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.analyze                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.implement                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.converge                        |
++----------------------------------------+
+

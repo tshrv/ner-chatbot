@@ -103,6 +103,36 @@ uv run python -m src.main ingest data/assessment-of-the-threat-from-russia.pdf -
 
 ---
 
+## Conversational AI Agent (Chat)
+
+Launch the interactive entity intelligence agent to explore extracted entities, classifications, and occurrences using natural language:
+
+```bash
+uv run python -m src.main chat
+```
+
+### Agent Capabilities & Sample Queries
+
+- **Entity Counts**:
+  - `How many unique entity types are in the database?`
+  - `What is the total number of entities recorded?`
+- **Entity Listings**:
+  - `List all entity types.`
+  - `Show me all organizations.`
+- **Existence Checks**:
+  - `Does Vladimir Putin exist in the documents?`
+  - `Is there an entity type called Weapon?`
+- **Occurrence Lookups**:
+  - `Where does the entity "Russia" appear?`
+  - `Show all occurrences of Location entities.`
+- **Guardrails & Boundaries**:
+  - Strictly single-turn (no conversation history retained across turns).
+  - Answers exclusively using database query tools (never invents facts).
+  - Automatically refuses out-of-scope queries (general knowledge, coding, or job-level pipeline inquiries).
+  - Displays top 10 occurrences with document names, page numbers, and character offsets (`start_offset` to `end_offset`).
+
+---
+
 ## Code Quality & Formatting
 
 All Python source code is automatically formatted and imports sorted using `ruff` in accordance with Constitution Principle VIII:

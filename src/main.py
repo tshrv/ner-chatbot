@@ -9,8 +9,9 @@ from typing import List, Optional
 
 import typer
 
+from src.agent import create_entity_agent
 from src.config import settings
-from src.database import close_db, get_jobs_collection
+from src.database import close_db, get_jobs_collection, init_db
 from src.models.job import IngestionJob, JobStatus
 from src.services.extraction import ExtractionError
 from src.services.ingestion import IngestionPipelineCoordinator
@@ -140,6 +141,88 @@ def ingest(
     elapsed = time.perf_counter() - start_time
     summary_text = format_summary_table(job, elapsed)
     sys.stdout.write(summary_text + "\n")
+
+
+@app.command(name="chat")
+def chat(
+    model: Optional[str] = typer.Option(
+        None,
+        "--model",
+        "-m",
+        help="Gemini LLM model identifier (default: gemini-3.8-flash).",
+    ),
+    verbose: bool = typer.Option(
+        False,
+        "--verbose",
+        "-v",
+        help="Enable detailed debug logs to stderr.",
+    ),
+) -> None:
+    """Launch an interactive natural language chat session to query entity intelligence."""
+    setup_logging(verbose=verbose)
+
+    banner = [
+        "=" * 60,
+        "              ENTITY INTELLIGENCE CHAT AGENT",
+        "=" * 60,
+        "Ask questions about entities, types, and occurrences.",
+        "Type 'exit' or 'quit' to end the session.",
+        "=" * 60,
+    ]
+    sys.stdout.write("\n".join(banner) + "\n\n")
+
+    try:
+        agent = create_entity_agent(model_name=model)
+    except ValueError as e:
+        logger.error("Configuration error: {}", e)
+        sys.stderr.write(f"Configuration Error: {e}\n")
+        raise typer.Exit(code=1)
+
+    async def _chat_loop() -> None:
+        await init_db()
+        max_retries = settings.agent_max_retries
+
+        while True:
+            try:
+                user_prompt = input("You: ").strip()
+            except (KeyboardInterrupt, EOFError):
+                sys.stdout.write("\nGoodbye!\n")
+                break
+
+            if not user_prompt:
+                continue
+
+            if user_prompt.lower() in ("exit", "quit", "q"):
+                sys.stdout.write("Goodbye!\n")
+                break
+
+            # Execute single-turn query with retry mechanism
+            for attempt in range(1, max_retries + 1):
+                try:
+                    result = await agent.run(user_prompt)
+                    sys.stdout.write(f"\nAgent: {result.output}\n\n")
+                    break
+                except Exception as err:
+                    logger.warning(
+                        "Agent execution attempt {}/{} failed: {}",
+                        attempt,
+                        max_retries,
+                        err,
+                    )
+                    if attempt < max_retries:
+                        await asyncio.sleep(1.0)
+                    else:
+                        sys.stdout.write(
+                            f"\nAgent: I encountered an unexpected error after "
+                            f"{max_retries} attempts: {err}\n\n"
+                        )
+
+    try:
+        asyncio.run(_chat_loop())
+    except KeyboardInterrupt:
+        sys.stdout.write("\nGoodbye!\n")
+    finally:
+        close_db()
 
 
 def main() -> None:
