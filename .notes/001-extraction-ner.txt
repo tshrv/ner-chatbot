@@ -1,0 +1,70 @@
++----------------------------------------+
+/speckit.constitution (once per project) |
++----------------------------------------+
+Use loguru for logging.
+Log events in a way that they resemble complete trace of workflow.
+Whereever possible, add additional attributes to log events like object ids, key value pairs, etc, which would enable user to later filter them for ease of observability
+
++----------------------------------------+
+/speckit.specify                         |
++----------------------------------------+
+Build a content extraction and named entitiy recognition pipeline.
+Let's call it "Ingestion Pipeline", available as cli command.
+Consider each trigger as a fresh execution and associate a unique job id with it.
+A PDF file will be available in the local file system, for which we run the context extraction process.
+Assign a unique id to the document.
+We need OCR enabled extraction.
+We expect the extracted content to retain the associated page number, document id, name, path, status, etc.
+Store it in a database.
+After extraction is completed, we start the named entity recognition process.
+For each page's content, we run enitity recognition.
+Recognition should most likely result in entities, their type, their occurences in text, etc.
+Save all of this information in database.
+
+
++----------------------------------------+
+/speckit.clarify                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.plan                            |
++----------------------------------------+
+Use typer cli command as starting point
+Use mongodb as database via docker compose
+use pydantic for data modelling and validations
+for content extraction use xberg
+- xberg docker config https://docs.xberg.io/guides/docker/#docker-compose
+- use xberg version 1.2.9
+- execute content extraction via api call https://docs.xberg.io/guides/api-server/#client-examples
+For entity recognition
+- use gliner as python package https://docs.knowledgator.com/docs/frameworks/gliner/installation/#install-via-pip
+- refer to basic usage https://docs.knowledgator.com/docs/frameworks/gliner/usage/#-basic-use-case
+- use model "knowledgator/gliner-multitask-large-v0.5"
+- allow "labels" input to be configured from .env, set some default as well
+Use document data/assessment-of-the-threat-from-russia.pdf to test the pipeline
+
++----------------------------------------+
+/speckit.checklist                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.tasks                           |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.analyze                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.implement                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.converge                        |
++----------------------------------------+
+

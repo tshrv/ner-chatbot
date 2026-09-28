@@ -1,0 +1,55 @@
++----------------------------------------+
+/speckit-constitution (once per project) |
++----------------------------------------+
+This is python project.
+Write testable, maintainable, readable, extensible code.
+For cli interface use "typer"
+Prefer async/await wherever possible.
+Development environment is uv, linux(ubuntu) running in WSL on windows 11.
+For any dependency, prefer running it via docker via docker compose if possible instead of installing it directly.
+For all dependencies, ensure a specific version is pinned.
+
+Ignore folders entirely: ".notes", "src/playground"
+
+Do not write tests at all, human user will do that.
+
+
++----------------------------------------+
+/speckit-specify                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-clarify                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-plan                            |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-checklist                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-tasks                           |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-analyze                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-implement                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit-converge                        |
++----------------------------------------+
+
