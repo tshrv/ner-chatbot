@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -20,7 +21,9 @@ class JobStatus(str, Enum):
 class IngestionJob(BaseModel):
     """Execution record for an individual ingestion pipeline run."""
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(
+        populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True
+    )
 
     id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),

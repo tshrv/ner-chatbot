@@ -5,7 +5,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import List, Optional
 
 import typer
 
@@ -44,7 +44,10 @@ def format_summary_table(job_record: IngestionJob, elapsed: float) -> str:
         f"Total Pages:        {job_record.total_pages}",
         f"Pages Extracted:    {job_record.pages_extracted}",
         f"Pages Analyzed:     {job_record.pages_ner_completed}",
-        f"Entities Discovered: {job_record.total_occurrences_found} (unique: {job_record.total_entities_found})",
+        (
+            f"Entities Discovered: {job_record.total_occurrences_found} "
+            f"(unique: {job_record.total_entities_found})"
+        ),
         f"Elapsed Time:       {elapsed:.1f}s",
     ]
     if job_record.status == JobStatus.PARTIALLY_COMPLETED and job_record.error_message:
@@ -93,9 +96,7 @@ def ingest(
 
     try:
         job = asyncio.run(
-            coordinator.run(
-                file_path=file_path, labels=parsed_labels, threshold=threshold
-            )
+            coordinator.run(file_path=file_path, labels=parsed_labels, threshold=threshold)
         )
     except ValueError as e:
         logger.error("Input validation failed: {}", e)
@@ -114,9 +115,7 @@ def ingest(
                         {"_id": coordinator.active_job_id},
                         {
                             "$set": {
-                                "status": getattr(
-                                    JobStatus.FAILED, "value", JobStatus.FAILED
-                                ),
+                                "status": getattr(JobStatus.FAILED, "value", JobStatus.FAILED),
                                 "error_message": "Execution interrupted by user (SIGINT)",
                                 "completed_at": datetime.now(timezone.utc),
                             }
@@ -125,9 +124,7 @@ def ingest(
 
                 asyncio.run(_mark_interrupted())
             except Exception as cleanup_err:
-                logger.debug(
-                    "Could not record interruption to database: {}", cleanup_err
-                )
+                logger.debug("Could not record interruption to database: {}", cleanup_err)
         raise typer.Exit(code=130)
     except ExtractionError as e:
         logger.error("Pipeline extraction error: {}", e)

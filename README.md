@@ -103,6 +103,22 @@ uv run python -m src.main ingest data/assessment-of-the-threat-from-russia.pdf -
 
 ---
 
+## Code Quality & Formatting
+
+All Python source code is automatically formatted and imports sorted using `ruff` in accordance with Constitution Principle VIII:
+
+- **Format code and sort imports**:
+  ```bash
+  uv run ruff check --select I,F401 --fix src/ && uv run ruff format src/
+  ```
+
+- **Verify formatting compliance (check-only)**:
+  ```bash
+  uv run ruff check src/ && uv run ruff format --check src/
+  ```
+
+---
+
 ## Database Collections
 
 MongoDB stores data under the `ner_chatbot` database across 5 collections:

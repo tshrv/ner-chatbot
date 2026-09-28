@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -35,7 +36,9 @@ class NerStatus(str, Enum):
 class Document(BaseModel):
     """Document metadata and registration record."""
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(
+        populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True
+    )
 
     id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),
@@ -90,7 +93,9 @@ class Document(BaseModel):
 class DocumentPage(BaseModel):
     """Individual page textual content and extraction/NER state."""
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(
+        populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True
+    )
 
     id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),

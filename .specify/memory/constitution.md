@@ -1,12 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 -> 1.1.0
+- Version change: 1.1.0 -> 1.2.0
 - Modified principles: None
 - Added principles:
-  - VII. Comprehensive Observability & Structured Logging with Loguru
+  - VIII. Mandatory Formatting & Import Sorting with Ruff
 - Added sections: None
 - Modified sections:
-  - Development Workflow & Quality Standards (incorporated Loguru structured trace requirements)
+  - Development Workflow & Quality Standards (incorporated Ruff formatting and import sorting into Code Quality Gates)
 - Removed sections: None
 - Follow-up TODOs: None
 -->
@@ -55,6 +55,12 @@ Sync Impact Report
 - Log calls MUST bind contextual attributes (such as entity IDs, object IDs, request IDs, and structured key-value pairs) wherever possible to enable precise filtering, queryability, and granular observability.
 - Rationale: Detailed structured tracing via Loguru provides immediate operational visibility, streamlines diagnostics across asynchronous pipelines, and simplifies downstream log analysis.
 
+### VIII. Mandatory Formatting & Import Sorting with Ruff
+- All Python code MUST be formatted and all imports MUST be sorted using `ruff`.
+- Code that has not been formatted with Ruff or contains unsorted imports MUST NOT be committed, merged, or considered complete.
+- Formatting and import sorting with Ruff is a non-negotiable definition-of-done gate for every feature.
+- Rationale: Automated, deterministic code formatting and import sorting eliminate stylistic debate, minimize diff noise in version control, and guarantee consistent codebase readability.
+
 ## Structural Constraints & Excluded Directories
 
 - Excluded Folders:
@@ -77,6 +83,7 @@ Sync Impact Report
 - Code Quality Gates:
   - All application code MUST include explicit type annotations.
   - Business logic MUST be separated from transport/CLI layers and infrastructure services.
+  - All Python code MUST be formatted and imports sorted with `ruff` (`ruff format` and `ruff check --select I --fix`) prior to completing any task or feature.
   - Implementations MUST NOT produce or modify test files, respecting the human-only testing policy.
 
 ## Governance
@@ -89,4 +96,4 @@ Sync Impact Report
   - PATCH: Clarifications, non-semantic wording refinements, and formatting corrections.
 - Compliance Review: Every change and contribution must be reviewed against these rules. Complexity or exceptions must be explicitly justified and approved by the human maintainer.
 
-**Version**: 1.1.0 | **Ratified**: 2026-09-27 | **Last Amended**: 2026-09-28
+**Version**: 1.2.0 | **Ratified**: 2026-09-27 | **Last Amended**: 2026-09-28

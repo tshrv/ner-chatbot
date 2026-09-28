@@ -2,13 +2,16 @@
 
 import uuid
 from datetime import datetime, timezone
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
 class RecognizedEntity(BaseModel):
     """Document-scoped unique named entity record."""
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(
+        populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True
+    )
 
     id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),
@@ -46,7 +49,9 @@ class RecognizedEntity(BaseModel):
 class EntityOccurrence(BaseModel):
     """Specific page-level mention of an entity with text character offsets."""
 
-    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True)
+    model_config = ConfigDict(
+        populate_by_name=True, arbitrary_types_allowed=True, use_enum_values=True
+    )
 
     id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),

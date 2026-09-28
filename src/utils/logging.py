@@ -2,6 +2,7 @@
 
 import sys
 from typing import Any, Dict
+
 from loguru import logger
 
 
@@ -10,9 +11,11 @@ def format_record(record: Dict[str, Any]) -> str:
     extra = record["extra"]
     context_parts = []
     if "job_id" in extra:
-        context_parts.append(f"job={extra['job_id'][:8] if len(extra['job_id']) >= 8 else extra['job_id']}")
+        job_id = str(extra["job_id"])
+        context_parts.append(f"job={job_id[:8] if len(job_id) >= 8 else job_id}")
     if "document_id" in extra:
-        context_parts.append(f"doc={extra['document_id'][:8] if len(extra['document_id']) >= 8 else extra['document_id']}")
+        doc_id = str(extra["document_id"])
+        context_parts.append(f"doc={doc_id[:8] if len(doc_id) >= 8 else doc_id}")
     if "page_number" in extra:
         context_parts.append(f"page={extra['page_number']}")
 

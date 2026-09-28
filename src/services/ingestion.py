@@ -1,22 +1,21 @@
 """Ingestion pipeline coordinator managing end-to-end extraction and entity recognition."""
 
-import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from src.database import (
-    get_jobs_collection,
     get_documents_collection,
-    get_pages_collection,
     get_entities_collection,
+    get_jobs_collection,
     get_occurrences_collection,
+    get_pages_collection,
     init_db,
 )
-from src.models.job import IngestionJob, JobStatus
 from src.models.document import Document, DocumentPage, DocumentStatus, ExtractionStatus, NerStatus
-from src.models.entity import RecognizedEntity, EntityOccurrence
-from src.services.extraction import XbergExtractionService, ExtractionError
+from src.models.entity import EntityOccurrence, RecognizedEntity
+from src.models.job import IngestionJob, JobStatus
+from src.services.extraction import ExtractionError, XbergExtractionService
 from src.services.ner import GlinerNerService
 from src.utils.logging import logger
 
@@ -69,19 +68,34 @@ class IngestionPipelineCoordinator:
             job.completed_at = datetime.now(timezone.utc)
             await jobs_col.update_one(
                 {"_id": job.id},
-                {"$set": {"status": getattr(job.status, "value", job.status), "error_message": job.error_message, "completed_at": job.completed_at}},
+                {
+                    "$set": {
+                        "status": getattr(job.status, "value", job.status),
+                        "error_message": job.error_message,
+                        "completed_at": job.completed_at,
+                    }
+                },
             )
             raise ValueError(err_msg)
 
         if file_path.suffix.lower() != ".pdf":
-            err_msg = f"Invalid file format: target must be a PDF document (.pdf), got '{file_path.suffix}'"
+            err_msg = (
+                f"Invalid file format: target must be a PDF document (.pdf), "
+                f"got '{file_path.suffix}'"
+            )
             log.error(err_msg)
             job.status = JobStatus.FAILED
             job.error_message = err_msg
             job.completed_at = datetime.now(timezone.utc)
             await jobs_col.update_one(
                 {"_id": job.id},
-                {"$set": {"status": getattr(job.status, "value", job.status), "error_message": job.error_message, "completed_at": job.completed_at}},
+                {
+                    "$set": {
+                        "status": getattr(job.status, "value", job.status),
+                        "error_message": job.error_message,
+                        "completed_at": job.completed_at,
+                    }
+                },
             )
             raise ValueError(err_msg)
 
@@ -95,7 +109,13 @@ class IngestionPipelineCoordinator:
             job.completed_at = datetime.now(timezone.utc)
             await jobs_col.update_one(
                 {"_id": job.id},
-                {"$set": {"status": getattr(job.status, "value", job.status), "error_message": job.error_message, "completed_at": job.completed_at}},
+                {
+                    "$set": {
+                        "status": getattr(job.status, "value", job.status),
+                        "error_message": job.error_message,
+                        "completed_at": job.completed_at,
+                    }
+                },
             )
             raise ValueError(err_msg)
 
@@ -132,11 +152,22 @@ class IngestionPipelineCoordinator:
 
             await jobs_col.update_one(
                 {"_id": job.id},
-                {"$set": {"status": getattr(job.status, "value", job.status), "error_message": job.error_message, "completed_at": job.completed_at}},
+                {
+                    "$set": {
+                        "status": getattr(job.status, "value", job.status),
+                        "error_message": job.error_message,
+                        "completed_at": job.completed_at,
+                    }
+                },
             )
             await docs_col.update_one(
                 {"_id": document.id},
-                {"$set": {"status": getattr(document.status, "value", document.status), "error_message": document.error_message}},
+                {
+                    "$set": {
+                        "status": getattr(document.status, "value", document.status),
+                        "error_message": document.error_message,
+                    }
+                },
             )
             raise
 
@@ -181,14 +212,20 @@ class IngestionPipelineCoordinator:
         partial_error_messages: List[str] = []
 
         for page in page_records:
-            page_log = logger.bind(job_id=job.id, document_id=document.id, page_number=page.page_number)
+            page_log = logger.bind(
+                job_id=job.id, document_id=document.id, page_number=page.page_number
+            )
 
             if not page.content.strip():
                 page_log.debug("Page is blank; skipping NER.")
                 page.ner_status = NerStatus.COMPLETED
                 await pages_col.update_one(
                     {"_id": page.id},
-                    {"$set": {"ner_status": getattr(NerStatus.COMPLETED, "value", NerStatus.COMPLETED)}},
+                    {
+                        "$set": {
+                            "ner_status": getattr(NerStatus.COMPLETED, "value", NerStatus.COMPLETED)
+                        }
+                    },
                 )
                 job.pages_ner_completed += 1
                 continue
@@ -211,7 +248,12 @@ class IngestionPipelineCoordinator:
                 page.error_message = str(e)
                 await pages_col.update_one(
                     {"_id": page.id},
-                    {"$set": {"ner_status": getattr(NerStatus.FAILED, "value", NerStatus.FAILED), "error_message": str(e)}},
+                    {
+                        "$set": {
+                            "ner_status": getattr(NerStatus.FAILED, "value", NerStatus.FAILED),
+                            "error_message": str(e),
+                        }
+                    },
                 )
                 continue
 
@@ -262,7 +304,11 @@ class IngestionPipelineCoordinator:
             page.ner_status = NerStatus.COMPLETED
             await pages_col.update_one(
                 {"_id": page.id},
-                {"$set": {"ner_status": getattr(NerStatus.COMPLETED, "value", NerStatus.COMPLETED)}},
+                {
+                    "$set": {
+                        "ner_status": getattr(NerStatus.COMPLETED, "value", NerStatus.COMPLETED)
+                    }
+                },
             )
             job.pages_ner_completed += 1
             page_log.info(

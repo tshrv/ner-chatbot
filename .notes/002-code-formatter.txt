@@ -1,0 +1,47 @@
++----------------------------------------+
+/speckit.constitution (once per project) |
++----------------------------------------+
+Use ruff to format all python code and sort imports.
+Without it, a feature cannot be considered as complete.
+
++----------------------------------------+
+/speckit.specify                         |
++----------------------------------------+
+Format entire codebase and sort imports, make necessary changes to fix it all, ensure no behavioural changes are made.
+
++----------------------------------------+
+/speckit.clarify                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.plan                            |
++----------------------------------------+
+use ruff to format all code and sort imports
+make changes to code if needed but ensure no behavioural changes are done
+
+
++----------------------------------------+
+/speckit.checklist                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.tasks                           |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.analyze                         |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.implement                       |
++----------------------------------------+
+
+
++----------------------------------------+
+/speckit.converge                        |
++----------------------------------------+
+

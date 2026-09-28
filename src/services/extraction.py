@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from typing import List, Tuple
+
 import aiofiles
 import httpx
 
@@ -12,13 +13,16 @@ from src.utils.logging import logger
 
 class ExtractionError(Exception):
     """Raised when Xberg content extraction fails."""
+
     pass
 
 
 class XbergExtractionService:
     """Service client for calling the containerized Xberg OCR API server."""
 
-    def __init__(self, base_url: str = settings.xberg_api_url, language: str = settings.xberg_ocr_language) -> None:
+    def __init__(
+        self, base_url: str = settings.xberg_api_url, language: str = settings.xberg_ocr_language
+    ) -> None:
         self.base_url = base_url.rstrip("/")
         self.language = language
 
@@ -37,7 +41,9 @@ class XbergExtractionService:
             raise ExtractionError(f"Target file does not exist or is not a file: {file_path}")
 
         url = f"{self.base_url}/extract"
-        logger.debug("Dispatching extraction request to Xberg at {} for file: {}", url, file_path.name)
+        logger.debug(
+            "Dispatching extraction request to Xberg at {} for file: {}", url, file_path.name
+        )
 
         async with aiofiles.open(file_path, "rb") as f:
             file_bytes = await f.read()
@@ -63,11 +69,14 @@ class XbergExtractionService:
             except httpx.ConnectError as e:
                 logger.error("Failed to connect to Xberg API server at {}: {}", self.base_url, e)
                 raise ExtractionError(
-                    f"Could not connect to Xberg API at {self.base_url}. Ensure Docker container is running."
+                    f"Could not connect to Xberg API at {self.base_url}. "
+                    "Ensure Docker container is running."
                 ) from e
             except httpx.TimeoutException as e:
                 logger.error("Xberg extraction timed out for file {}: {}", file_path.name, e)
-                raise ExtractionError(f"Extraction request timed out for file: {file_path.name}") from e
+                raise ExtractionError(
+                    f"Extraction request timed out for file: {file_path.name}"
+                ) from e
             except httpx.HTTPError as e:
                 logger.error("HTTP error while calling Xberg API: {}", e)
                 raise ExtractionError(f"Xberg API communication error: {e}") from e
