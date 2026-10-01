@@ -266,3 +266,14 @@ All code is strictly formatted and imports organized using `ruff` in accordance 
   ```bash
   uv run ruff check src/ && uv run ruff format --check src/
   ```
+
+---
+
+## Testing
+
+There are end-to-end tests for ingestion and ingestion + agent conversation.  
+Ensure the containerized services are running and the `.env` is in place, run following command to execute tests.
+```bash
+uv run pytest
+```
+
