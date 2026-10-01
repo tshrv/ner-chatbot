@@ -109,7 +109,7 @@ XBERG_OCR_LANGUAGE=eng
 
 # GLiNER Named Entity Recognition
 GLINER_MODEL_NAME=knowledgator/gliner-multitask-large-v0.5
-NER_LABELS=Person,Organization,Location,Date,Event
+NER_LABELS=Person,Organization,Location,Date,Event,Country
 NER_THRESHOLD=0.5
 
 # GCP Vertex AI / AI Agent
